@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gradient Generator</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- <h1>Gradient Generator</h1> -->
+    <div class="btns">
+      <button class="btn" id="btn1">#FF7E5F</button>
+      <button class="btn" id="btn2">#FEB47B</button>
+    </div>
+
+    <p class="copy-text" id="copy-text">Copy here</p>
+
+    <div class="gradient-info">
+      <p><strong>CSS Background Gradient:</strong></p>
+      <p id="css-gradient">
+        background-image: linear-gradient(to right, #0d0ffa, #2ad8d9);
+      </p>
+    </div>
+
+    <script>
+      let btn1 = document.getElementById("btn1");
+
+      let btn2 = document.getElementById("btn2");
+      let copyHexCSS = document.getElementById("css-gradient");
+      let mainCopyDiv = document.querySelector(".gradient-info");
+      let hex1 = "#0d0ffa";
+      let hex2 = "#2ad8d9";
+      const getHexValues = () => {
+        let hexString = "0123456789abcdef";
+        let color = "#";
+
+        for (let num = 0; num < 6; num++) {
+          let random = Math.random();
+          let hexLimit = random * 16;
+          let floorHex = Math.floor(hexLimit);
+          color = color + hexString[floorHex];
+          //console.log(floorHex);
+        }
+        // console.log(color);
+        return color;
+      };
+      const buttonOneHex = () => {
+        hex1 = getHexValues();
+        document.body.style.backgroundImage = `linear-gradient(to right, ${hex1}, ${hex2})`;
+        btn1.innerHTML = hex1;
+        btn1.style.backgroundColor = hex2;
+        btn1.style.color = hex1;
+        btn2.style.backgroundColor = hex1;
+        btn2.style.color = hex2;
+        copyHexCSS.innerHTML = `background-image: linear-gradient(to right, ${hex1}, ${hex2});`;
+      };
+      const buttonTwoHex = () => {
+        hex2 = getHexValues();
+        document.body.style.backgroundImage = `linear-gradient(to right, ${hex1}, ${hex2})`;
+        btn2.innerHTML = hex2;
+        btn2.style.backgroundColor = hex1;
+        btn2.style.color = hex2;
+        btn1.style.backgroundColor = hex2;
+        btn1.style.color = hex1;
+        copyHexCSS.innerHTML = `background-image: linear-gradient(to right, ${hex1}, ${hex2});`;
+      };
+      btn1.addEventListener("click", buttonOneHex);
+
+      btn2.addEventListener("click", buttonTwoHex);
+      mainCopyDiv.addEventListener("click", () => {
+        console.log(copyHexCSS.innerText);
+        navigator.clipboard.writeText(copyHexCSS.innerText);
+        document.getElementById("copy-text").innerText = "Copied!";
+        setTimeout(() => {
+          document.getElementById("copy-text").innerText = "Copy here";
+        }, 1500);
+      });
+    </script>
+  </body>
+</html>
